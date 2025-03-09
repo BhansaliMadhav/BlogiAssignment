@@ -3,7 +3,10 @@ import prisma from "../prisma/client";
 
 export const getAllPosts = async (req: Request, res: Response) => {
   try {
-    const posts = await prisma.post.findMany({ include: { author: true } });
+    const posts = await prisma.post.findMany({
+      include: { author: true },
+      orderBy: { createdAt: "desc" },
+    });
     res.json(posts);
   } catch (error) {
     res.status(500).json({ message: "Error fetching posts", error });
